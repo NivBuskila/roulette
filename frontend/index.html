@@ -95,11 +95,6 @@
         width: 100%;
         position: relative;
         background: #0f2027; /* Fallback background */
-
-        /* Prevent browser from blurring during transforms */
-        transform: translateZ(0);
-        backface-visibility: hidden;
-        -webkit-font-smoothing: subpixel-antialiased;
       }
 
       /* Desktop/Landscape Aspect Ratio */
@@ -158,14 +153,9 @@
       }
 
       #game canvas {
-        display: block;  /* Prevents extra spacing */
+        width: 100% !important;
+        height: 100% !important;
         border-radius: 4px;
-        /* REMOVED width/height forcing - let Phaser control it for crisp rendering */
-
-        /* Critical for crisp rendering */
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
-        image-rendering: pixelated;
       }
     </style>
   </head>
