@@ -289,27 +289,28 @@ During development, I identified several inconsistencies in the technical specif
 
 #### 1. Payout Calculation Discrepancy
 
-| Source | Straight Bet (10) | Calculation |
-|--------|-------------------|-------------|
-| **Spec Formula** (Quick Reference) | 360 | `Bet × 35 + Bet` = 10×35+10 |
-| **Spec JSON Example** | 350 | Only `Bet × 35` (missing original bet) |
-| **My Implementation** | ✅ 360 | Follows the formula (industry standard) |
+| Source                             | Straight Bet (10) | Calculation                             |
+| ---------------------------------- | ----------------- | --------------------------------------- |
+| **Spec Formula** (Quick Reference) | 360               | `Bet × 35 + Bet` = 10×35+10             |
+| **Spec JSON Example**              | 350               | Only `Bet × 35` (missing original bet)  |
+| **My Implementation**              | ✅ 360            | Follows the formula (industry standard) |
 
 In real casinos, when you win, you keep your original bet **plus** the winnings. The JSON example incorrectly shows only the winnings.
 
 #### 2. Number 17 Color Error
 
-| Source | Number 17 Color |
-|--------|-----------------|
-| **Spec Color Table** | Black ✅ |
+| Source                | Number 17 Color            |
+| --------------------- | -------------------------- |
+| **Spec Color Table**  | Black ✅                   |
 | **Spec JSON Example** | `"winningColor": "red"` ❌ |
-| **My Implementation** | ✅ Black (correct) |
+| **My Implementation** | ✅ Black (correct)         |
 
 The JSON example shows `winningNumber: 17` with `winningColor: "red"`, but according to the spec's own color table, **17 is Black**.
 
 #### 3. Red Bet Result Error
 
 In the spec's JSON example, when 17 (black) wins:
+
 - The `red` bet shows `"won": true` ❌
 - Should be `"won": false` since 17 is black
 
