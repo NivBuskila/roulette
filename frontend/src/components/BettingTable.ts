@@ -20,9 +20,9 @@ export class BettingTable {
     private chipRenderer: ChipRenderer;
 
     private bettingAreas: BettingArea[] = [];
-    private onBetPlaced: (bet: Bet) => void;
+    private onBetPlaced: (bet: Bet) => boolean;
 
-    constructor(scene: IGameScene, x: number, y: number, onBetPlaced: (bet: Bet) => void) {
+    constructor(scene: IGameScene, x: number, y: number, onBetPlaced: (bet: Bet) => boolean) {
         this.scene = scene;
         this.onBetPlaced = onBetPlaced;
         this.container = scene.add.container(x, y);
@@ -68,14 +68,15 @@ export class BettingTable {
         const chipValue = this.scene.getCurrentChipValue();
         const newBet: Bet = { ...area.bet, amount: chipValue };
 
-        this.onBetPlaced(newBet);
-
-        // Use ChipRenderer to draw
-        this.chipRenderer.drawChip(
-            area.x + area.width / 2,
-            area.y + area.height / 2,
-            chipValue
-        );
+        // Only draw chip if bet was accepted
+        const accepted = this.onBetPlaced(newBet);
+        if (accepted) {
+            this.chipRenderer.drawChip(
+                area.x + area.width / 2,
+                area.y + area.height / 2,
+                chipValue
+            );
+        }
     }
 
     private handleHighlight(area: BettingArea): void {

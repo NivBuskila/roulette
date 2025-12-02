@@ -26,10 +26,10 @@ export class BettingManager {
         this.isSpinning = isSpinning;
     }
 
-    public handleBetPlaced(bet: Bet): void {
+    public handleBetPlaced(bet: Bet): boolean {
         if (this.isSpinning()) {
             this.uiManager.showMessage('Wait for the wheel to stop!', '#ff6b6b');
-            return;
+            return false;
         }
 
         // Create unique key for this bet type
@@ -39,7 +39,7 @@ export class BettingManager {
         const currentTotal = this.getTotalBetAmount();
         if (currentTotal + bet.amount > this.getBalance()) {
             this.uiManager.showMessage('Insufficient balance!', '#ff6b6b');
-            return;
+            return false;
         }
 
         // Add or update bet
@@ -53,15 +53,18 @@ export class BettingManager {
         // Update display
         this.balanceDisplay.update(this.getBalance(), this.getTotalBetAmount());
         this.uiManager.showMessage(`Bet placed: ${bet.amount} on ${this.getBetDescription(bet)}`, '#28a745');
+        return true;
     }
 
-    public clearBets(): void {
-        if (this.isSpinning()) return;
+    public clearBets(force: boolean = false): void {
+        if (!force && this.isSpinning()) return;
 
         this.currentBets.clear();
         this.bettingTable.clearChips();
         this.balanceDisplay.update(this.getBalance(), 0);
-        this.uiManager.showMessage('Bets cleared', '#ffd700');
+        if (!force) {
+            this.uiManager.showMessage('Bets cleared', '#ffd700');
+        }
     }
 
     public repeatLastBet(): void {

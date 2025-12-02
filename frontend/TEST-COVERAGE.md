@@ -23,11 +23,11 @@ Tests focus on **critical game logic** rather than visual styling or UI details.
 
 **14 tests** - Testing backend integration (MOST CRITICAL)
 
-| File | Tests | Description |
-|------|-------|-------------|
-| `api.service.balance.test.ts` | 4 | Balance fetching |
-| `api.service.spin.test.ts` | 6 | Spin & betting |
-| `api.service.history.test.ts` | 4 | Game history |
+| File                          | Tests | Description      |
+| ----------------------------- | ----- | ---------------- |
+| `api.service.balance.test.ts` | 4     | Balance fetching |
+| `api.service.spin.test.ts`    | 6     | Spin & betting   |
+| `api.service.history.test.ts` | 4     | Game history     |
 
 - ✅ getBalance() functionality
 - ✅ placeBetsAndSpin() with various bet types

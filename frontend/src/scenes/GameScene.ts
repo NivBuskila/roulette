@@ -124,12 +124,13 @@ export class GameScene extends Phaser.Scene {
       y = height * 0.22;
     }
 
-    this.bettingTable = new BettingTable(this, x, y, (bet: Bet) => {
+    this.bettingTable = new BettingTable(this, x, y, (bet: Bet): boolean => {
       // We need to use the manager here, but it might not be initialized yet if called immediately
       // But it's called on interaction, so it should be fine.
       if (this.bettingManager) {
-        this.bettingManager.handleBetPlaced(bet);
+        return this.bettingManager.handleBetPlaced(bet);
       }
+      return false;
     });
   }
 
@@ -209,7 +210,12 @@ export class GameScene extends Phaser.Scene {
 
       if (response.success) {
         // Animate wheel to result
-        await this.wheel.spinTo(response.result.winningNumber);
+        try {
+          await this.wheel.spinTo(response.result.winningNumber);
+        } catch (animError) {
+          console.error('Wheel animation error:', animError);
+          // Continue with result handling even if animation fails
+        }
 
         // Update state
         this.balance = response.result.newBalance;
@@ -253,8 +259,8 @@ export class GameScene extends Phaser.Scene {
     // Save bets for repeat feature before clearing
     this.bettingManager.saveLastBets();
 
-    // Clear bets and update display
-    this.bettingManager.clearBets();
+    // Clear bets and update display (force=true because we're still in spinning state)
+    this.bettingManager.clearBets(true);
 
     // Update history
     this.loadHistory();

@@ -63,13 +63,14 @@ export class BalanceDisplay {
   }
 
   public update(balance: number, totalBet: number): void {
-    this.balanceText.setText(`$${balance}`);
+    const availableBalance = balance - totalBet;
+    this.balanceText.setText(`$${availableBalance}`);
     this.betText.setText(`$${totalBet}`);
 
-    // Color based on balance state
-    if (balance < 100) {
+    // Color based on available balance state
+    if (availableBalance < 100) {
       this.balanceText.setColor('#dc3545');
-    } else if (balance < 500) {
+    } else if (availableBalance < 500) {
       this.balanceText.setColor('#ffc107');
     } else {
       this.balanceText.setColor('#28a745');
