@@ -27,11 +27,11 @@ import {
  */
 export function validateBet(bet: Bet): ValidationResult {
     // Check bet amount
-    if (!bet.amount || bet.amount <= 0) {
+    if (typeof bet.amount !== 'number' || !bet.amount || bet.amount <= 0) {
         return {
             valid: false,
             errorCode: 'INVALID_BET',
-            errorMessage: 'Bet amount must be positive',
+            errorMessage: 'Bet amount must be a positive number',
         };
     }
 
@@ -71,11 +71,11 @@ export function validateBet(bet: Bet): ValidationResult {
 
     // Validate all numbers are in range 0-36
     for (const num of bet.numbers) {
-        if (!Number.isInteger(num) || num < 0 || num > 36) {
+        if (typeof num !== 'number' || !Number.isInteger(num) || !isFinite(num) || num < 0 || num > 36) {
             return {
                 valid: false,
                 errorCode: 'INVALID_BET',
-                errorMessage: `Invalid number: ${num}. Must be integer between 0 and 36`,
+                errorMessage: 'Numbers must be integers between 0 and 36',
             };
         }
     }

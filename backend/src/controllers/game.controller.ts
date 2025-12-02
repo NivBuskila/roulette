@@ -16,12 +16,12 @@ export class GameController {
         try {
             const { bets } = req.body;
 
-            if (!bets) {
+            if (!bets || !Array.isArray(bets)) {
                 res.status(400).json({
                     success: false,
                     error: {
                         code: 'INVALID_BET',
-                        message: 'Bets array is required',
+                        message: 'Bets must be an array',
                     },
                 });
                 return;
@@ -51,7 +51,17 @@ export class GameController {
      */
     static getHistory(req: Request, res: Response): void {
         try {
-            const limit = parseInt(req.query.limit as string) || 10;
+            const limitParam = req.query.limit as string;
+            let limit = 10;
+
+            if (limitParam) {
+                const parsed = parseInt(limitParam, 10);
+                if (!isNaN(parsed) && parsed >= 1 && parsed <= 100) {
+                    limit = parsed;
+                }
+                // If invalid, fallback to default (10)
+            }
+
             const history = getHistory(limit);
 
             res.json({ history });
