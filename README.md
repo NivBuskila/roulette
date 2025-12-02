@@ -447,22 +447,31 @@ if (b - a === 3) // Vertical
 
 ```
 roulette/
+├── shared/
+│   └── types.ts                  # Shared TypeScript interfaces
+│
 ├── backend/
 │   ├── src/
 │   │   ├── index.ts              # Server entry point
 │   │   ├── app.ts                # Express app setup
 │   │   ├── types/
-│   │   │   └── index.ts          # TypeScript interfaces
+│   │   │   └── index.ts          # Re-exports shared types
 │   │   ├── constants/
-│   │   │   └── roulette.ts       # Game constants & validation
+│   │   │   └── roulette.ts       # Game constants & validation helpers
+│   │   ├── controllers/
+│   │   │   └── game.controller.ts # HTTP request handlers
 │   │   ├── services/
 │   │   │   ├── game.service.ts   # Core game orchestration
 │   │   │   ├── rng.service.ts    # Provably fair RNG
 │   │   │   ├── payout.service.ts # Payout calculation
-│   │   │   └── validation.service.ts # Bet validation
+│   │   │   ├── validation.service.ts # Bet validation orchestrator
+│   │   │   └── validators/
+│   │   │       ├── inside-bets.validator.ts  # Split, Street, Corner, Line
+│   │   │       └── outside-bets.validator.ts # Column, Dozen, Color, etc.
 │   │   └── routes/
 │   │       ├── balance.routes.ts
 │   │       └── game.routes.ts
+│   ├── jest.config.js            # Jest test configuration
 │   ├── package.json
 │   └── tsconfig.json
 │
@@ -475,22 +484,31 @@ roulette/
 │   │   │   ├── BootScene.ts      # Asset loading
 │   │   │   └── GameScene.ts      # Main game scene
 │   │   ├── components/
-│   │   │   ├── Wheel.ts          # Roulette wheel
-│   │   │   ├── BettingTable.ts   # Betting interface
+│   │   │   ├── Wheel.ts          # Roulette wheel with spin animation
+│   │   │   ├── BettingTable.ts   # Betting interface controller
 │   │   │   ├── ChipSelector.ts   # Chip denomination picker
 │   │   │   ├── BalanceDisplay.ts # Balance UI
-│   │   │   └── HistoryDisplay.ts # Game history
+│   │   │   ├── HistoryDisplay.ts # Game history panel
+│   │   │   └── table/
+│   │   │       ├── TableRenderer.ts      # Static table graphics
+│   │   │       ├── ChipRenderer.ts       # Dynamic chip rendering
+│   │   │       └── BettingZoneFactory.ts # Hit area calculations
+│   │   ├── managers/
+│   │   │   ├── UIManager.ts      # UI state management
+│   │   │   ├── EffectsManager.ts # Win animations & particles
+│   │   │   └── BettingManager.ts # Bet placement logic
 │   │   ├── services/
 │   │   │   └── api.service.ts    # Backend communication
 │   │   ├── types/
-│   │   │   └── index.ts
+│   │   │   └── index.ts          # Re-exports shared types
 │   │   └── constants/
-│   │       └── roulette.ts
+│   │       └── roulette.ts       # Frontend game constants
 │   ├── index.html
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── vite.config.ts
 │
+├── CLAUDE.md                     # AI assistant context
 ├── roulette-assignment.md        # Assignment description
 ├── roulette-spec.md              # Technical specification
 └── README.md                     # This file
