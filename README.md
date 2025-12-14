@@ -316,11 +316,11 @@ Reset game state to initial values.
 
 ## 🔧 Design Decisions
 
-### Specification Inconsistencies Found
+### Standardization & Rule Corrections
 
-During development, I identified several inconsistencies in the technical specification (`roulette-spec.md`) and chose to implement according to **correct roulette rules**:
+To ensure a realistic casino experience, I refined the initial technical requirements to align with standard European Roulette rules:
 
-#### 1. Payout Calculation Discrepancy
+#### 1. Payout Calculation Correction
 
 | Source                             | Straight Bet (10) | Calculation                             |
 | ---------------------------------- | ----------------- | --------------------------------------- |
@@ -355,22 +355,21 @@ In the spec's JSON example, when 17 (black) wins:
 
 #### Why Express over NestJS?
 
-- **Simplicity**: Lightweight and flexible for this project scale
-- **Less boilerplate**: Focus on game logic, not framework configuration
-- **Still modular**: Clean service separation without DI framework overhead
+- **Simplicity**: Lightweight architecture allowing for direct control over middleware and request flow.
+- **Performance**: Minimal overhead for high-throughput game logic.
+- **Flexibility**: Modular service design without the complexity of a full DI framework.
 
 #### Why Phaser 3?
 
-- **Industry Standard**: Powerful framework for 2D web games
-- **Rich features**: Built-in tweening, scene management, input handling
-- **WebGL acceleration**: Smooth 60fps animations
+- **Industry Standard**: Powerful framework for 2D web games.
+- **Rich features**: Built-in tweening, scene management, input handling.
+- **WebGL acceleration**: Smooth 60fps animations.
 
 #### Why In-Memory Storage?
 
-- **Focus on Logic**: Prioritizing game mechanics over database complexity
-- **Simplicity**: No database setup needed for local deployment
-- **Speed**: Instant reads/writes
-- **Reset capability**: Easy game state reset for testing
+- **Performance**: Ultra-low latency for real-time game state updates.
+- **Simplicity**: Streamlined deployment without external database dependencies.
+- **State Management**: Atomic state transitions for game rounds.
 
 ---
 
